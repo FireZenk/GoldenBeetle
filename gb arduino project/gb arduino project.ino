@@ -8,14 +8,14 @@
 */
 
 void setup() {
-  Serial.begin(115200);  //initialize the Serial port
+  Serial.begin(115200);  // initialize the Serial port
   pinMode(LED_BUILTIN, OUTPUT);  // initialize digital pin LED_BUILTIN as an output.
 }
 
 void loop() {
   if (Serial.available())  {
-    char inChar = (char)Serial.read();
-    if (inChar == 'ON') {
+    String enabled = Serial.readString();
+    if (enabled == "on") {
       digitalWrite(LED_BUILTIN, HIGH);
     } else {
       digitalWrite(LED_BUILTIN, LOW);

@@ -75,7 +75,7 @@ class BluetoothConnection(private val context: Context) {
     fun disconnect() = bluetoothLEService?.disconnect()
 
     fun changeLedState(activate: Boolean) {
-        val string = if (activate) "ON" else "OFF"
+        val string = if (activate) "on" else "off"
         sCharacteristic?.setValue(string)
         bluetoothLEService?.writeCharacteristic(sCharacteristic)
     }

@@ -142,7 +142,7 @@ class BluetoothLEService : Service() {
         characteristic: BluetoothGattCharacteristic? = null
     ) {
         val intent = Intent(action)
-        if (characteristic != null) intent.putExtra(EXTRA_DATA, characteristic.value)
+        if (characteristic != null) intent.putExtra(EXTRA_DATA, String(characteristic.value))
         sendBroadcast(intent)
     }
 }
