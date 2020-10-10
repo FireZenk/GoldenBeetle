@@ -27,24 +27,26 @@ class BluetoothConnection(private val context: Context) {
     private var modelNumberCharacteristic: BluetoothGattCharacteristic? = null
     private var serialPortCharacteristic: BluetoothGattCharacteristic? = null
     private var commandCharacteristic: BluetoothGattCharacteristic? = null
+
+    private var connectionObserver: ((String) -> Unit)? = null
     
     private val gattUpdateReceiver = object : BroadcastReceiver() {
         
         override fun onReceive(context: Context, intent: Intent) {
             when(intent.action) {
-                ACTION_GATT_CONNECTED -> { /* ok */ }
-                ACTION_GATT_DISCONNECTED -> { /* ko */ }
+                ACTION_GATT_CONNECTED -> { connectionObserver?.invoke("CONNECTED") }
+                ACTION_GATT_DISCONNECTED -> { connectionObserver?.invoke("DISCONNECTED") }
                 ACTION_GATT_SERVICES_DISCOVERED -> {
                     getGattServices(bluetoothLEService?.getSupportedServices())
                 }
                 ACTION_DATA_AVAILABLE -> {
+                    val data = intent.getStringExtra(EXTRA_DATA)
                     if (sCharacteristic == modelNumberCharacteristic) {
-                        val data = intent.getStringExtra(EXTRA_DATA)
-                            ?.toUpperCase(Locale.getDefault())
-                        if (data != null && data.startsWith(BLUNO_BEETLE_1_ID)) {
+                        val name = data?.toUpperCase(Locale.getDefault())
+                        if (name != null && name.startsWith(BLUNO_BEETLE_1_ID)) {
                             setupDevice()
                         }
-                    } else {
+                    } else if (sCharacteristic == serialPortCharacteristic) {
                         // TODO THIS IS THE DATA STREAM FROM DEVICE
                     }
                 }
@@ -52,7 +54,8 @@ class BluetoothConnection(private val context: Context) {
         }
     }
 
-    fun makeConnection(bluetoothDevice: BluetoothDevice) {
+    fun makeConnection(bluetoothDevice: BluetoothDevice, connectionObserver: (String) -> Unit) {
+        this.connectionObserver = connectionObserver
         val gattServiceIntent = Intent(context, BluetoothLEService::class.java)
         context.bindService(gattServiceIntent, object : ServiceConnection {
             override fun onServiceConnected(name: ComponentName, service: IBinder) {
@@ -70,6 +73,12 @@ class BluetoothConnection(private val context: Context) {
     }
 
     fun disconnect() = bluetoothLEService?.disconnect()
+
+    fun changeLedState(activate: Boolean) {
+        val string = if (activate) "ON" else "OFF"
+        sCharacteristic?.setValue(string)
+        bluetoothLEService?.writeCharacteristic(sCharacteristic)
+    }
 
     private fun makeGattUpdateIntentFilter(): IntentFilter = IntentFilter().apply {
         addAction(ACTION_GATT_CONNECTED)

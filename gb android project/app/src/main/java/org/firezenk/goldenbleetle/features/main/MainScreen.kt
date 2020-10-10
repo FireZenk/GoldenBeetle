@@ -22,16 +22,25 @@ class MainScreen : AppCompatActivity() {
         }
         deviceList.adapter = adapter
 
+        ledButton.setOnClickListener {
+            viewModel reduce LedButtonClicked
+        }
+
         viewModel reduce Scan
 
         viewModel.pullState(this, {
             when (it) {
                 is DevicesDiscovered -> onDeviceDiscovered(it)
+                is ConnectionChanged -> onConnectionChanged(it)
             }
         })
     }
 
     private fun onDeviceDiscovered(it: DevicesDiscovered) {
         adapter.submitList(it.devices)
+    }
+
+    private fun onConnectionChanged(it: ConnectionChanged) {
+        connectionText.text = it.state
     }
 }

@@ -18,12 +18,13 @@ class MainViewModel(private val bluetoothScanner: BluetoothLeScanner,
     }
 
     private val deviceList = mutableListOf<BluetoothDevice>()
+    private var ledIsActivated = false
 
     private val scanCallback = object : ScanCallback() {
 
         override fun onScanResult(callbackType: Int, result: ScanResult) {
             super.onScanResult(callbackType, result)
-            if (result.device.name.startsWith(DEVICE_NAME_FILTER)) {
+            if (result.device.name != null && result.device.name.startsWith(DEVICE_NAME_FILTER)) {
                 deviceList.add(result.device)
                 DevicesDiscovered(deviceList).pushState()
             }
@@ -32,7 +33,7 @@ class MainViewModel(private val bluetoothScanner: BluetoothLeScanner,
         override fun onBatchScanResults(results: MutableList<ScanResult>) {
             super.onBatchScanResults(results)
             val devices = results.map { it.device }
-                .filter { it.name.startsWith(DEVICE_NAME_FILTER) }
+                .filter { it.name != null && it.name.startsWith(DEVICE_NAME_FILTER) }
             if (devices.isNotEmpty()) {
                 deviceList.addAll(devices)
                 DevicesDiscovered(deviceList).pushState()
@@ -51,6 +52,7 @@ class MainViewModel(private val bluetoothScanner: BluetoothLeScanner,
             Stop -> onStop()
             is Connect -> onConnect(action.device)
             Disconnect -> onDisconnect()
+            LedButtonClicked -> onLedButtonClicked()
         }
     }
 
@@ -58,7 +60,14 @@ class MainViewModel(private val bluetoothScanner: BluetoothLeScanner,
 
     private fun onStop() = bluetoothScanner.stopScan(scanCallback)
 
-    private fun onConnect(device: BluetoothDevice) = bluetoothConnection.makeConnection(device)
+    private fun onConnect(device: BluetoothDevice) {
+        bluetoothConnection.makeConnection(device) { ConnectionChanged(it).pushState() }
+    }
 
     private fun onDisconnect() = bluetoothConnection.disconnect()
+
+    private fun onLedButtonClicked() {
+        ledIsActivated = !ledIsActivated
+        bluetoothConnection.changeLedState(ledIsActivated)
+    }
 }
