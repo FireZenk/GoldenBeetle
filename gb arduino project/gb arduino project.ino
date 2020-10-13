@@ -7,7 +7,7 @@
   by Jorge Garrido <firezenk@gmail.com>
 */
 
-byte ref[2];
+byte ref[1];
 
 void setup() {
   Serial.begin(115200);  // initialize the Serial port
@@ -15,12 +15,13 @@ void setup() {
 }
 
 void loop() {
-  if (Serial.available() > 2) {
-    Serial.readBytes(ref, 2);
-    if (byte[0] == 0 && byte[1] == 1) {
+  if (Serial.available()) {
+    Serial.readBytes(ref, 1);
+    if (ref[0] == 0x1) {
       digitalWrite(LED_BUILTIN, HIGH);
     } else {
       digitalWrite(LED_BUILTIN, LOW);
     }
+    Serial.print(ref[0], DEC);
   }
 }
