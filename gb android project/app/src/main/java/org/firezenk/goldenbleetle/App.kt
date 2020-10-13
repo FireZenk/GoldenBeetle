@@ -16,11 +16,11 @@ class App : Application() {
         super.onCreate()
 
         val bluetoothManager = getSystemService(BLUETOOTH_SERVICE) as BluetoothManager
-        val bluetoothLeScanner = bluetoothManager.adapter.bluetoothLeScanner
+        val bluetoothAdapter = bluetoothManager.adapter
 
         val mainModule = module {
             single { BluetoothConnection(get()) }
-            viewModel { MainViewModel(bluetoothLeScanner, get()) }
+            viewModel { MainViewModel(bluetoothAdapter, get()) }
         }
 
         startKoin {

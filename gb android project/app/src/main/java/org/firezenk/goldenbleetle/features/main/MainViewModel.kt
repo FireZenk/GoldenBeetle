@@ -1,5 +1,6 @@
 package org.firezenk.goldenbleetle.features.main
 
+import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothDevice
 import android.bluetooth.le.BluetoothLeScanner
 import android.bluetooth.le.ScanCallback
@@ -8,7 +9,7 @@ import android.util.Log
 import org.firezenk.goldenbleetle.features.common.MVIViewModel
 import org.firezenk.goldenbleetle.system.BluetoothConnection
 
-class MainViewModel(private val bluetoothScanner: BluetoothLeScanner,
+class MainViewModel(private val bluetoothAdapter: BluetoothAdapter,
                     private val bluetoothConnection: BluetoothConnection)
     : MVIViewModel<MainAction, MainState>() {
 
@@ -48,7 +49,12 @@ class MainViewModel(private val bluetoothScanner: BluetoothLeScanner,
 
     override fun reduce(action: MainAction) {
         when(action) {
-            Scan -> onScan()
+            Scan -> {
+                if (bluetoothAdapter.isEnabled)
+                    onScan()
+                else
+                    BluetoothIsDisabled.pushState()
+            }
             Stop -> onStop()
             is Connect -> onConnect(action.device)
             Disconnect -> onDisconnect()
@@ -56,9 +62,9 @@ class MainViewModel(private val bluetoothScanner: BluetoothLeScanner,
         }
     }
 
-    private fun onScan() = bluetoothScanner.startScan(scanCallback)
+    private fun onScan() = bluetoothAdapter.bluetoothLeScanner.startScan(scanCallback)
 
-    private fun onStop() = bluetoothScanner.stopScan(scanCallback)
+    private fun onStop() = bluetoothAdapter.bluetoothLeScanner.stopScan(scanCallback)
 
     private fun onConnect(device: BluetoothDevice) {
         bluetoothConnection.makeConnection(device) { ConnectionChanged(it).pushState() }
