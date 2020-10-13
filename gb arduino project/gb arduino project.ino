@@ -7,15 +7,17 @@
   by Jorge Garrido <firezenk@gmail.com>
 */
 
+byte ref[2];
+
 void setup() {
   Serial.begin(115200);  // initialize the Serial port
   pinMode(LED_BUILTIN, OUTPUT);  // initialize digital pin LED_BUILTIN as an output.
 }
 
 void loop() {
-  if (Serial.available())  {
-    String enabled = Serial.readString();
-    if (enabled == "on") {
+  if (Serial.available() > 2) {
+    Serial.readBytes(ref, 2);
+    if (byte[0] == 0 && byte[1] == 1) {
       digitalWrite(LED_BUILTIN, HIGH);
     } else {
       digitalWrite(LED_BUILTIN, LOW);

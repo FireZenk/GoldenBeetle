@@ -46,7 +46,7 @@ class BluetoothConnection(private val context: Context) {
                         if (name != null && name.startsWith(BLUNO_BEETLE_1_ID)) {
                             setupDevice()
                         }
-                    } else if (sCharacteristic == serialPortCharacteristic) {
+                    } else if (sCharacteristic?.uuid == serialPortCharacteristic?.uuid) {
                         // TODO THIS IS THE DATA STREAM FROM DEVICE
                     }
                 }
@@ -75,8 +75,8 @@ class BluetoothConnection(private val context: Context) {
     fun disconnect() = bluetoothLEService?.disconnect()
 
     fun changeLedState(activate: Boolean) {
-        val string = if (activate) "on" else "off"
-        sCharacteristic?.setValue(string)
+        val byte = (if (activate) 1 else 0).toByte()
+        sCharacteristic?.value = byteArrayOf(byte)
         bluetoothLEService?.writeCharacteristic(sCharacteristic)
     }
 
