@@ -3,6 +3,7 @@ package org.firezenk.goldenbleetle.features.main
 import android.bluetooth.BluetoothAdapter
 import android.content.Intent
 import android.os.Bundle
+import android.view.inputmethod.EditorInfo
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.screen_main.*
 import org.firezenk.goldenbleetle.R
@@ -28,9 +29,13 @@ class MainScreen : AppCompatActivity() {
         }
         deviceList.adapter = adapter
 
-        sendButton.setOnClickListener {
-            val number = numberToSend.text.toString().toInt()
-            viewModel reduce ChangeFunction(number)
+        numberToSend.setOnEditorActionListener { v, actionId, event ->
+            if (actionId == EditorInfo.IME_ACTION_SEND) {
+                val number = numberToSend.text.toString().toInt()
+                viewModel reduce ChangeFunction(number)
+                return@setOnEditorActionListener true
+            }
+            return@setOnEditorActionListener false
         }
 
         viewModel.pullState(this, {
