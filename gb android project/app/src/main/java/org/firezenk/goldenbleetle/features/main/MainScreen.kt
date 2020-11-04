@@ -28,8 +28,9 @@ class MainScreen : AppCompatActivity() {
         }
         deviceList.adapter = adapter
 
-        ledButton.setOnClickListener {
-            viewModel reduce LedButtonClicked
+        sendButton.setOnClickListener {
+            val number = numberToSend.text.toString().toInt()
+            viewModel reduce ChangeFunction(number)
         }
 
         viewModel.pullState(this, {

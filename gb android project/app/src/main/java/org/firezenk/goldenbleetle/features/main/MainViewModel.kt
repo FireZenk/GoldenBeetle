@@ -2,7 +2,6 @@ package org.firezenk.goldenbleetle.features.main
 
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothDevice
-import android.bluetooth.le.BluetoothLeScanner
 import android.bluetooth.le.ScanCallback
 import android.bluetooth.le.ScanResult
 import android.util.Log
@@ -58,7 +57,7 @@ class MainViewModel(private val bluetoothAdapter: BluetoothAdapter,
             Stop -> onStop()
             is Connect -> onConnect(action.device)
             Disconnect -> onDisconnect()
-            LedButtonClicked -> onLedButtonClicked()
+            is ChangeFunction -> onFunctionChanged(action.number)
         }
     }
 
@@ -72,8 +71,8 @@ class MainViewModel(private val bluetoothAdapter: BluetoothAdapter,
 
     private fun onDisconnect() = bluetoothConnection.disconnect()
 
-    private fun onLedButtonClicked() {
+    private fun onFunctionChanged(number: Int) {
         ledIsActivated = !ledIsActivated
-        bluetoothConnection.changeLedState(ledIsActivated)
+        bluetoothConnection.changeFunction(number)
     }
 }

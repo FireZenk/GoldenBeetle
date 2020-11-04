@@ -74,8 +74,8 @@ class BluetoothConnection(private val context: Context) {
 
     fun disconnect() = bluetoothLEService?.disconnect()
 
-    fun changeLedState(activate: Boolean) {
-        val byte = (if (activate) 1 else 0).toByte()
+    fun changeFunction(number: Int) {
+        val byte = number.toByte()
         sCharacteristic?.value = byteArrayOf(byte)
         bluetoothLEService?.writeCharacteristic(sCharacteristic)
     }

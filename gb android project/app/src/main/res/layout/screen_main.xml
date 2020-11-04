@@ -25,15 +25,25 @@
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/ledButton"
+        app:layout_constraintBottom_toTopOf="@+id/numberToSend"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <Button
-        android:id="@+id/ledButton"
+    <EditText
+        android:id="@+id/numberToSend"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="CHANGE LED STATE"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:inputType="number"
+        android:hint="0"
+        app:layout_constraintBottom_toTopOf="@+id/sendButton" />
+
+    <Button
+        android:id="@+id/sendButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="SEND"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
