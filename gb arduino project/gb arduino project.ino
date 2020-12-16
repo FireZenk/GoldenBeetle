@@ -13,7 +13,6 @@
 AF_DCMotor motor3(3);
 AF_DCMotor motor4(4);
 
-SoftwareSerial BT1(A0, A2);
 
 String command;
 
@@ -30,12 +29,8 @@ void setup() {
 
 void loop() {
   if (BT1.available()) {
-    Serial.write(BT1.read());
-  }
-
-  if (Serial.available()) {
-    char command = Serial.read();
-    BT1.print(command);
+    char command = BT1.read();
+    Serial.println(command);
 
     switch(command) {
       case '0':
