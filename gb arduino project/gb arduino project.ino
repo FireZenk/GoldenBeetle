@@ -8,53 +8,66 @@
 */
 
 #include <AFMotor.h>
+#include <SoftwareSerial.h>
 
 AF_DCMotor motor3(3);
 AF_DCMotor motor4(4);
 
-byte ref[1];
+SoftwareSerial BT1(A0, A2);
 
-const int buzzer = 2; // buzzer at digital pin D2
-const int extLED = 5; // led at digital pin D5
+String command;
 
 void setup() {
-  Serial.begin(115200);  // initialize the Serial port
-  //pinMode(LED_BUILTIN, OUTPUT);  // initialize digital pin LED_BUILTIN as an output.
+  motor3.run(FORWARD);
+  motor4.run(FORWARD);
+  motor3.setSpeed(0);
+  motor4.setSpeed(0);
 
-  //pinMode(buzzer, OUTPUT); // Set buzzer - pin 9 as an output
-
-  Serial.begin(9600); //Puerto bt
-
-  motor3.setSpeed(255);
-  motor4.setSpeed(10);
+  Serial.begin(9600);
+  Serial.println("Boop beep!");
+  BT1.begin(9600);
 }
 
 void loop() {
-  if (Serial.available()) {
-    Serial.readBytes(ref, 1);
-
-    switch(ref[0]) {
-      case 0x00:
-        digitalWrite(LED_BUILTIN, LOW); // INTERNAL LED LOW
-        break;
-      case 0x01:
-        digitalWrite(LED_BUILTIN, HIGH); // INTERNAL LED HIGH
-        break;
-      case 0x02:
-        tone(buzzer, 1000); // BEEP
-        delay(1000);
-        noTone(buzzer);
-        break;
-      case 0x03:
-        digitalWrite(extLED, HIGH); // EXTERNAL LED BLINK
-        delay(1000);
-        digitalWrite(extLED, LOW);
-        break;
-    }
-
-    Serial.print(ref[0], DEC);
+  if (BT1.available()) {
+    Serial.write(BT1.read());
   }
 
-  motor3.run(FORWARD);
-  motor4.run(FORWARD);
+  if (Serial.available()) {
+    char command = Serial.read();
+    BT1.print(command);
+
+    switch(command) {
+      case '0':
+        motor3.run(FORWARD);
+        motor4.run(FORWARD);
+        motor3.setSpeed(250);
+        motor4.setSpeed(250);
+        break;
+       case '1':
+        motor3.run(BACKWARD);
+        motor4.run(BACKWARD);
+        motor3.setSpeed(250);
+        motor4.setSpeed(250);
+        break;
+       case '2':
+        motor3.run(FORWARD);
+        motor4.run(FORWARD);
+        motor3.setSpeed(0);
+        motor4.setSpeed(250);
+        break;
+       case '3':
+        motor3.run(FORWARD);
+        motor4.run(FORWARD);
+        motor3.setSpeed(250);
+        motor4.setSpeed(0);
+        break;
+       case '4':
+        motor3.run(FORWARD);
+        motor4.run(FORWARD);
+        motor3.setSpeed(0);
+        motor4.setSpeed(0);
+        break;
+    }
+  }
 }
