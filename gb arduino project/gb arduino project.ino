@@ -13,6 +13,7 @@
 AF_DCMotor motor3(3);
 AF_DCMotor motor4(4);
 
+SoftwareSerial BT1(A5, A3); //A5 and A3
 
 String command;
 
