@@ -34,11 +34,23 @@
         style="@style/MySlider"/>
 
     <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/state"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="State: CONNECTED"
+        android:textSize="21sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/text"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
-        android:textSize="21sp"
         android:text="@string/command"
+        android:textSize="21sp"
         app:layout_constraintBottom_toBottomOf="@+id/commander"
         app:layout_constraintEnd_toStartOf="@+id/commander"
         app:layout_constraintTop_toTopOf="@+id/commander" />

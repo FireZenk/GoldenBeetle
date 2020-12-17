@@ -11,7 +11,14 @@ class BluetoothSPPService(context: Context) {
 
     fun connect(data: Intent) = spp.connect(data)
 
-    fun startService() = spp.startService(BluetoothState.DEVICE_OTHER)
+    fun startService() {
+        spp.setupService()
+        spp.startService(BluetoothState.DEVICE_OTHER)
+    }
 
     fun stopService() = spp.stopService()
+
+    fun acceleration(value: Int) = spp.send("A $value", true)
+
+    fun steering(value: Int) = spp.send("S $value", true)
 }

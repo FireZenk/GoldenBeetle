@@ -19,7 +19,9 @@
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup">
 
-        <activity android:name=".features.btspp.BTSPPScreen">
+        <activity android:name=".features.btspp.BTSPPScreen"
+            android:screenOrientation="landscape"
+            tools:ignore="LockedOrientationActivity">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -31,7 +33,9 @@
         <activity android:name=".features.btle.MainScreen" android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity"/>
 
-        <activity android:name="app.akexorcist.bluetoothspp.DeviceList"/>
+        <activity android:name="app.akexorcist.bluetoothspp.DeviceList"
+            android:screenOrientation="landscape"
+            tools:ignore="LockedOrientationActivity"/>
 
         <service android:name=".system.BluetoothLEService" android:enabled="true"/>
 

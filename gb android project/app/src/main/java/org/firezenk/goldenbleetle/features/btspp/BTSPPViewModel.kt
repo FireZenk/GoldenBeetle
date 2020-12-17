@@ -10,7 +10,9 @@ class BTSPPViewModel(private val service: BluetoothSPPService)
         when(action) {
             is Connect -> service.connect(action.data)
             StartService -> service.startService()
-            StopService ->service.stopService()
+            StopService -> service.stopService()
+            is AccelerationChanged -> service.acceleration(action.value)
+            is SteeringChanged -> service.steering(action.value)
         }
     }
 }
