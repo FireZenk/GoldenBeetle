@@ -9,9 +9,10 @@
 
     <style name="MySlider" parent="Widget.MaterialComponents.Slider">
         <item name="thumbColor">#2bb920</item>
-        <item name="thumbRadius">12dp</item>
+        <item name="thumbRadius">22dp</item>
         <item name="trackHeight">20dp</item>
         <item name="trackColorActive">#42cc33</item>
         <item name="trackColorInactive">#c6f0c2</item>
+        <item name="haloRadius">0dp</item>
     </style>
 </resources>
