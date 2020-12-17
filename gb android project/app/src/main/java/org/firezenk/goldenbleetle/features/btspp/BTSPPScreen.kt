@@ -12,11 +12,10 @@ import org.koin.android.viewmodel.ext.android.viewModel
 class BTSPPScreen : AppCompatActivity() {
 
     private val viewModel: BTSPPViewModel by viewModel()
+    private val binding: ScreenBtsppBinding by lazy { ScreenBtsppBinding.inflate(layoutInflater) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        val binding = ScreenBtsppBinding.inflate(layoutInflater)
         setContentView(R.layout.screen_btspp)
 
         binding.acceleration.addOnChangeListener { _, value, fromUser ->
@@ -30,6 +29,11 @@ class BTSPPScreen : AppCompatActivity() {
         viewModel.pullState(this, {
             when (it) {
                 is Message -> { }
+                is ConnectionStateChanged -> when (it.state) {
+                    0 -> { binding.state.text = getString(R.string.state, "CONNECTED") }
+                    1 -> { binding.state.text = getString(R.string.state, "DISCONNECTED") }
+                    2 -> { binding.state.text = getString(R.string.state, "FAILED") }
+                }
             }
         })
 

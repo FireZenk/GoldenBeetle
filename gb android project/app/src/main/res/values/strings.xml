@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Golden beetle</string>
     <string name="command">Command:</string>
+    <string name="state">State: %1$s</string>
 </resources>

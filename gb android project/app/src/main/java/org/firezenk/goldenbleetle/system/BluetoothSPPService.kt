@@ -11,6 +11,13 @@ class BluetoothSPPService(context: Context) {
 
     fun connect(data: Intent) = spp.connect(data)
 
+    fun connectionState(stateCallback: (Int) -> Unit) =
+        spp.setBluetoothConnectionListener(object : BluetoothSPP.BluetoothConnectionListener {
+            override fun onDeviceConnected(name: String?, address: String?) = stateCallback(0)
+            override fun onDeviceDisconnected() = stateCallback(1)
+            override fun onDeviceConnectionFailed() = stateCallback(2)
+        })
+
     fun startService() {
         spp.setupService()
         spp.startService(BluetoothState.DEVICE_OTHER)
