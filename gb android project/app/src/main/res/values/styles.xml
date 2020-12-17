@@ -1,10 +1,17 @@
 <resources>
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.Bridge">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="MySlider" parent="Widget.MaterialComponents.Slider">
+        <item name="thumbColor">#2bb920</item>
+        <item name="thumbRadius">12dp</item>
+        <item name="trackHeight">20dp</item>
+        <item name="trackColorActive">#42cc33</item>
+        <item name="trackColorInactive">#c6f0c2</item>
+    </style>
 </resources>

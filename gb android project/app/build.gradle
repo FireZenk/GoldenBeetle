@@ -28,18 +28,22 @@ dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 
-    implementation 'androidx.core:core-ktx:1.3.2'
-    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation "androidx.core:core-ktx:1.3.2"
+    implementation "androidx.appcompat:appcompat:1.2.0"
     implementation "androidx.recyclerview:recyclerview:1.1.0"
 
-    def constraintLayoutVersion = '2.0.1'
+    def constraintLayoutVersion = '2.0.4'
     implementation "androidx.constraintlayout:constraintlayout:$constraintLayoutVersion"
     implementation "androidx.constraintlayout:constraintlayout-solver:$constraintLayoutVersion"
+
+    implementation 'com.google.android.material:material:1.2.1'
 
     def koinVersion = '2.0.1'
     implementation "org.koin:koin-core:$koinVersion"
     implementation "org.koin:koin-android:$koinVersion"
     implementation "org.koin:koin-android-viewmodel:$koinVersion"
+
+    implementation "com.akexorcist:bluetoothspp:1.0.0"
 
     testImplementation 'junit:junit:4.13'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'

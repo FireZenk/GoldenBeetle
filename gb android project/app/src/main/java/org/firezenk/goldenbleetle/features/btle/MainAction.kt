@@ -1,4 +1,4 @@
-package org.firezenk.goldenbleetle.features.main
+package org.firezenk.goldenbleetle.features.btle
 
 import android.bluetooth.BluetoothDevice
 import org.firezenk.goldenbleetle.features.common.Action

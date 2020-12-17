@@ -1,4 +1,4 @@
-package org.firezenk.goldenbleetle.features.main
+package org.firezenk.goldenbleetle.features.btle
 
 import android.bluetooth.BluetoothAdapter
 import android.content.Intent
